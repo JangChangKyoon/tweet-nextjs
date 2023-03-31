@@ -27,20 +27,26 @@ const Home: NextPage = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onValid, onInValid)}>
+    <form onSubmit={handleSubmit(onValid)}>
       <div className="flex gap-x-2 ">
-        <div className=" text-red-600 text-xl">Name : </div>
+        <label htmlFor="username" className=" text-red-600 text-xl">
+          Name :
+        </label>
         <input
           {...register("username", {
             required: "Username is required",
           })}
           type="text"
           placeholder="Username"
+          id="username"
         />
         {errors.username?.message}
       </div>
+
       <div className="flex gap-x-2 ">
-        <div className=" text-red-600 text-xl">Email : </div>
+        <label htmlFor="email" className=" text-red-600 text-xl">
+          Email :{" "}
+        </label>
         <input
           {...register("email", {
             required: "Email is required",
@@ -51,20 +57,25 @@ const Home: NextPage = () => {
           })}
           type="email"
           placeholder="Email"
+          id="email"
           className={`${
             Boolean(errors.email?.message) ? "border-red-500" : ""
           }`}
         />
         {errors.email?.message}
       </div>
+
       <div className="flex gap-x-2 ">
-        <div className=" text-red-600 text-xl">Password : </div>
+        <label htmlFor="password" className=" text-red-600 text-xl">
+          Password :{" "}
+        </label>
         <input
           {...register("password", {
             required: "Password is required",
           })}
           type="text"
           placeholder="Password"
+          id="password"
         />
         {errors.password?.message}
       </div>
