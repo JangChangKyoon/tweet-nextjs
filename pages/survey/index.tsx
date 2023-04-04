@@ -32,105 +32,87 @@ const Survey: NextPage = () => {
   };
 
   return (
-    <div className="flex h-screen w-full items-center justify-center bg-orange-500 bg-opacity-90">
-      <div className="flex flex-col w-6/12 h-5/6 bg-slate-300 items-center justify-center rounded-xl">
+    <div className="flex mix-h-screen w-full items-center justify-center bg-orange-500 bg-opacity-90">
+      <div className="flex flex-col w-full max-w-md bg-slate-300 items-center justify-center rounded-xl">
         <h1 className="my-10 text-2xl font-bold">Job Application Form</h1>
         <form
           className="flex flex-col gap-y-5"
           onSubmit={handleSubmit(onValid)}
         >
-          <fieldset id="1" {...register("department", {})}>
+          <div>
             <legend>What department do you want to work for? </legend>
+            <span className="mb-3 block text-sm">
+              {errors.department ? (
+                <span className="text-red-500 text-xs font-bold">
+                  {" "}
+                  *required
+                </span>
+              ) : null}
+            </span>
 
-            <table>
-              <tr>
-                <td>
-                  <input
-                    value="sales"
-                    type="radio"
-                    id="sales"
-                    name="department"
-                    required
-                  />
-                  <label htmlFor="sales">Sales</label>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input
-                    value="marketing"
-                    type="radio"
-                    id="Marketing"
-                    name="department"
-                    required
-                  />
+            <tr>
+              <td>
+                <input
+                  {...register("department", {
+                    required: true,
+                  })}
+                  value="sales"
+                  type="radio"
+                  id="sales"
+                  name="department"
+                />
+              </td>
+              <td>
+                {" "}
+                <label htmlFor="sales">Sales</label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input
+                  {...register("department", {
+                    required: true,
+                  })}
+                  value="marketing"
+                  type="radio"
+                  id="Marketing"
+                  name="department"
+                />
 
-                  <label htmlFor="Marketing">Marketing</label>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input
-                    value="accounting"
-                    id="Accounting"
-                    type="radio"
-                    name="department"
-                    required
-                  />
-                  <label htmlFor="Accounting">Accounting</label>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input
-                    value="customerService"
-                    type="radio"
-                    name="department"
-                    id="Customer"
-                    required
-                  />
-                  <label htmlFor="Customer">Customer Service</label>
-                </td>
-              </tr>
-            </table>
+                <label htmlFor="Marketing">Marketing</label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input
+                  {...register("department", {
+                    required: true,
+                  })}
+                  value="accounting"
+                  id="Accounting"
+                  type="radio"
+                  name="department"
+                />
+                <label htmlFor="Accounting">Accounting</label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input
+                  {...register("department", {
+                    required: true,
+                  })}
+                  value="customerService"
+                  type="radio"
+                  name="department"
+                  id="Customer"
+                />
+                <label htmlFor="Customer">Customer Service</label>
+              </td>
+            </tr>
+
             {errors?.department?.message}
-          </fieldset>
-
-          <fieldset id="2" {...register("company", {})}>
-            <legend>Why do you want to join this company?</legend>
-            <table>
-              <tr>
-                <td>
-                  <input value="money" id="2" type="radio" name="company" /> I
-                  Want money!
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input
-                    value="loveCompany"
-                    id="2"
-                    type="radio"
-                    name="company"
-                  />{" "}
-                  I love this company
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input value="learning" id="2" type="radio" name="company" />{" "}
-                  I want to learn
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input value="nothing" id="2" type="radio" name="company" /> I
-                  don't know why
-                </td>
-              </tr>
-            </table>
-            {/* {errors?.company?.message} */}
-          </fieldset>
+          </div>
 
           <div className="flex flex-col">
             <legend>Salary</legend>
