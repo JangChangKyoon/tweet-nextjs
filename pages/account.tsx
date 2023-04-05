@@ -1,11 +1,12 @@
-import Input from "@/components/input";
-import Layout from "@/components/layout";
+import Input from "@components/input";
+import Layout from "@components/layout";
+import useMutation from "@libs/client/useMutation";
 import type { NextPage } from "next";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FieldError } from "react-hook-form/dist/types";
 
-interface LoginForm {
+interface EnterForm {
   username: string;
   password: string;
   email: string;
@@ -17,10 +18,13 @@ const Account: NextPage = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<LoginForm>();
+  } = useForm<EnterForm>();
+  const [enter, { data, loading, error }] = useMutation("api/users/account");
 
-  const onValid = (data: LoginForm) => {
-    console.log(data);
+  const onValid = (validForm: EnterForm) => {
+    console.log(validForm);
+    if (loading) return;
+    enter(validForm);
     reset();
   };
 

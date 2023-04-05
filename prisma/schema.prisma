@@ -43,3 +43,4 @@ model Tweet {
   updatedAt DateTime @updatedAt
   likes TweetLike[]
 }
+

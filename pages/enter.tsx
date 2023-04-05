@@ -1,11 +1,12 @@
-import Input from "@/components/input";
-import Layout from "@/components/layout";
+import Input from "@components/input";
+import Layout from "@components/layout";
+import useMutation from "@libs/client/useMutation";
 import type { NextPage } from "next";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FieldError } from "react-hook-form/dist/types";
 
-interface LoginForm {
+interface EnterForm {
   password: string;
   email: string;
 }
@@ -16,23 +17,30 @@ const Enter: NextPage = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<LoginForm>();
+  } = useForm<EnterForm>();
   const [submitting, setSubmitting] = useState(false);
+  const [enter, { loading, data, error }] = useMutation("api/users/enter");
 
-  const onValid = (data: LoginForm) => {
-    // console.log(data);
-    setSubmitting(true);
-    fetch("/api/users/enter", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then(() => {
-      setSubmitting(false);
-    });
-    reset();
+  const onValid = (validForm: EnterForm) => {
+    if (loading) return;
+    enter(validForm);
+    // console.log(loading, data, error);
   };
+
+  // const onValid = (data: EnterForm) => {
+  //   // console.log(data);
+  //   setSubmitting(true);
+  //   fetch("/api/users/enter", {
+  //     method: "POST",
+  //     body: JSON.stringify(data),
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   }).then(() => {
+  //     setSubmitting(false);
+  //   });
+  //   reset();
+  // };
 
   const onInValid = (errors: FieldError) => {
     console.log(errors);
