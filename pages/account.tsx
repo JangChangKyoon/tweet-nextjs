@@ -2,7 +2,8 @@ import Input from "@components/input";
 import Layout from "@components/layout";
 import useMutation from "@libs/client/useMutation";
 import type { NextPage } from "next";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FieldError } from "react-hook-form/dist/types";
 
@@ -12,6 +13,9 @@ interface EnterForm {
   email: string;
 }
 
+interface MutationResult {
+  ok: boolean;
+}
 const Account: NextPage = () => {
   const {
     register,
@@ -19,7 +23,8 @@ const Account: NextPage = () => {
     reset,
     formState: { errors },
   } = useForm<EnterForm>();
-  const [enter, { data, loading, error }] = useMutation("api/users/account");
+  const [enter, { data, loading, error }] =
+    useMutation<MutationResult>("api/users/account");
 
   const onValid = (validForm: EnterForm) => {
     console.log(validForm);
@@ -27,6 +32,15 @@ const Account: NextPage = () => {
     enter(validForm);
     reset();
   };
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (data?.ok) {
+      router.push("/enter");
+    }
+  }, [data, router]);
+  console.log(data);
 
   const onInValid = (errors: FieldError) => {
     console.log(errors);

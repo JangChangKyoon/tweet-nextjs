@@ -2,13 +2,18 @@ import Input from "@components/input";
 import Layout from "@components/layout";
 import useMutation from "@libs/client/useMutation";
 import type { NextPage } from "next";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FieldError } from "react-hook-form/dist/types";
 
 interface EnterForm {
   password: string;
-  email: string;
+  username: string;
+}
+
+interface MutationResult {
+  ok: boolean;
 }
 
 const Enter: NextPage = () => {
@@ -18,8 +23,9 @@ const Enter: NextPage = () => {
     reset,
     formState: { errors },
   } = useForm<EnterForm>();
-  const [submitting, setSubmitting] = useState(false);
-  const [enter, { loading, data, error }] = useMutation("api/users/enter");
+
+  const [enter, { loading, data, error }] =
+    useMutation<MutationResult>("api/users/enter");
 
   const onValid = (validForm: EnterForm) => {
     if (loading) return;
@@ -42,6 +48,14 @@ const Enter: NextPage = () => {
   //   reset();
   // };
 
+  const router = useRouter();
+  useEffect(() => {
+    if (data?.ok) {
+      router.push("/");
+    }
+  }, [data, router]);
+  console.log(data);
+
   const onInValid = (errors: FieldError) => {
     console.log(errors);
   };
@@ -51,8 +65,8 @@ const Enter: NextPage = () => {
       <Layout title="로그인"></Layout>
       <form onSubmit={handleSubmit(onValid)} className="flex flex-col">
         <Input
-          register={register("email", {
-            required: "Email is required",
+          register={register("username", {
+            required: "Username is required",
             validate: {
               notGmail: (value) =>
                 !value.includes("@gmail.com") || "Gmail is not allow",
@@ -63,7 +77,7 @@ const Enter: NextPage = () => {
           type="text"
           required
         />
-        {errors.email?.message}
+        {errors.username?.message}
         {/* className={`${Boolean(errors.email?.message) ? "border-red-500" : ""}`} */}
 
         <Input
