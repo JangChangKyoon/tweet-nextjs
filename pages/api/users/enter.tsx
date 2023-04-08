@@ -2,14 +2,7 @@ import client from "@libs/server/client";
 import withHandler from "@libs/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
 import { withIronSessionApiRoute } from "iron-session/next";
-
-declare module "iron-session" {
-  interface IronSessionData {
-    user?: {
-      username: string;
-    };
-  }
-}
+import { withApiSession } from "@libs/server/withSession";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   console.log(req.body);
@@ -25,10 +18,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     },
   });
 
-  if (!exists) res.status(404).end();
+  if (!exists) return res.status(404).end();
   console.log(exists);
   req.session.user = {
-    username: exists?.username + "",
+    id: exists.id,
   };
 
   await req.session.save();
@@ -38,8 +31,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   });
 }
 
-export default withIronSessionApiRoute(withHandler("POST", handler), {
-  cookieName: "tweetsession",
-  password:
-    "9845904809485098594385093840598df;slkgjfdl;gkfsdjg;ldfksjgdsflgjdfklgjdflgjflkgjdgd",
-});
+export default withApiSession(
+  withHandler({ method: "POST", handler, isPrivate: false })
+);
