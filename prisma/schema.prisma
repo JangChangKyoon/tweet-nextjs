@@ -22,7 +22,6 @@ model TweetUser {
   updatedAt DateTime @updatedAt
   likes TweetLike[]
   tweets Tweet[]
-  tokens Token[]
 }
 
 model TweetLike {
@@ -38,6 +37,7 @@ model TweetLike {
 model Tweet {
   id        Int      @id @default(autoincrement())
   text String  @db.MediumText
+  image       String?
   userId Int
   user TweetUser @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
@@ -45,13 +45,5 @@ model Tweet {
   likes TweetLike[]
 }
 
-model Token {
-  id        Int      @id @default(autoincrement())
-  payload String @unique
-  user TweetUser @relation(fields:[userId], references: [id])
-  userId Int
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
 
-  @@index([userId])
-}
+
