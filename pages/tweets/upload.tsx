@@ -17,7 +17,7 @@ const Upload: NextPage = () => {
   //1. useForm을 사용
   const { register, handleSubmit } = useForm<UploadProductForm>();
   // 3. register으로 유효성 검사 설정하기
-  const [uploadProduct, { loading, data }] = useMutation("/api/products");
+  const [uploadProduct, { loading, data }] = useMutation("/api/tweets");
   //7. mutation 만들기
   const onValid = (data: UploadProductForm) => {
     //6. handleSubmit으로 데이터 받아오기

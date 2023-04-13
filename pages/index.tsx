@@ -5,6 +5,7 @@ import useUser from "@libs/client/useUser";
 import { Tweet } from "@prisma/client";
 import type { NextPage } from "next";
 import Head from "next/head";
+import { useForm } from "react-hook-form";
 import useSWR from "swr";
 
 interface TweetsResponse {
@@ -17,6 +18,7 @@ const Home: NextPage = () => {
   // console.log(user);
   const { user, isLoading } = useUser();
   // console.log(user);
+
   const { data } = useSWR<TweetsResponse>("/api/tweets");
   console.log(data);
   return (
@@ -24,6 +26,7 @@ const Home: NextPage = () => {
       <Head>
         <title>Home</title>
       </Head>
+
       <div>
         {data?.tweets?.map((tweet) => (
           <Item
@@ -34,7 +37,7 @@ const Home: NextPage = () => {
             hearts={1}
           />
         ))}
-        <FloatingButton href="/products/upload">
+        <FloatingButton href="/tweets/upload">
           <svg
             className="h-6 w-6"
             xmlns="http://www.w3.org/2000/svg"

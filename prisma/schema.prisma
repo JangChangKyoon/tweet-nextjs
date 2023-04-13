@@ -18,6 +18,7 @@ model TweetUser {
   email     String?  @unique
   password   String    
   // ? optional
+  avatar String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   likes TweetLike[]
