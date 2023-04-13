@@ -4,11 +4,12 @@ import Layout from "@components/layout";
 import TextArea from "@components/textarea";
 import useMutation from "@libs/client/useMutation";
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 interface UploadProductForm {
   name: string;
-  price: number;
   description: string;
 }
 
@@ -20,11 +21,17 @@ const Upload: NextPage = () => {
   //7. mutation 만들기
   const onValid = (data: UploadProductForm) => {
     //6. handleSubmit으로 데이터 받아오기
-    console.log(data);
+    // console.log(data);
     //6-2. 데이터가 잘 들어가는지 확인하기
     if (loading) return;
     uploadProduct(data);
-    //7-1
+
+    const router = useRouter();
+    // useEffect(()=>{
+    //       if(data?.ok){
+    // router.replace(`/products/${data.tweet.id}`)
+    //   }
+    // })
   };
   return (
     <Layout canGoBack title="Upload Product">
