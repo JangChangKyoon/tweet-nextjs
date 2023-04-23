@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  // console.log("12314");
+  console.log("12314");
   const payload = req.body;
   console.log(payload);
   const user = await client.tweetUser.upsert({

@@ -5,54 +5,42 @@ import { Tweet } from "@prisma/client";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import useSWR from "swr";
 
 interface TweetsResponse {
   ok: boolean;
-  tweets: Tweet[];
+  search: Tweet[];
 }
 
-interface Search {
+interface SearchInput {
   search: string;
 }
 
-const Home: NextPage = () => {
-  const { register, handleSubmit } = useForm<Search>();
-  // Input 데이터 송수신 기본 설정하기
-
-  // Input 데이터를 활용하기 위한 useState설정하기
-  const [input, setInput] = useState<Search>();
-
-  const { data } = useSWR<TweetsResponse>("/api/tweets");
-
-  // Input 데이터를 가져오기
-  const onValid = (searchData: Search) => {
-    setInput(searchData);
-  };
-
-  // Input 데이터를 이용하여 url을 변경하기
+const Search: NextPage = () => {
+  const { register, handleSubmit } = useForm<SearchInput>();
   const router = useRouter();
-  useEffect(() => {
-    if (input !== undefined) {
-      router.push(`/tweets/search/${input.search}`);
-    }
-  }, [input, router]);
+  const { data } = useSWR<TweetsResponse>(
+    router.query.terms ? `/api/tweets/search/${router.query.terms}` : null
+  );
+
+  const onValid = (searchData: SearchInput) => {
+    router.push(`/tweets/search/${searchData.search}`);
+  };
 
   return (
     <Layout title="홈" canGoBack hasTabBar>
       <Head>
-        <title>Home</title>
+        <title>Search</title>
       </Head>
 
-      <form onSubmit={handleSubmit(onValid)} className="pt-5">
-        <input {...register("search")} placeholder="Search" />
-        <input type="submit" value="Go" />
-      </form>
-
       <div>
-        {data?.tweets?.map((tweet) => (
+        <form onSubmit={handleSubmit(onValid)} className="pt-5">
+          <input {...register("search")} placeholder="Search" />
+          <input type="submit" value="Go" />
+        </form>
+
+        {data?.search?.map((tweet) => (
           <Item
             id={tweet.id}
             key={tweet.id}
@@ -82,4 +70,4 @@ const Home: NextPage = () => {
     </Layout>
   );
 };
-export default Home;
+export default Search;

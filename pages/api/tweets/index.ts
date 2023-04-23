@@ -13,18 +13,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     });
   }
 
-  if (req.method === "GET" && req.body) {
-    const tweets = await client.tweet.findMany({});
-
-    res.json({
-      ok: true,
-      tweets,
-    });
-  }
-
   if (req.method === "POST") {
     const {
-      body: { name, description, image },
+      body: { description },
       session: { user },
     } = req;
     // console.log(description);

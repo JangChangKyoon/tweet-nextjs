@@ -62,37 +62,38 @@ const Enter: NextPage = () => {
 
   return (
     <div>
-      <Layout title="로그인"></Layout>
-      <form onSubmit={handleSubmit(onValid)} className="flex flex-col">
-        <Input
-          register={register("username", {
-            required: "Username is required",
-            validate: {
-              notGmail: (value) =>
-                !value.includes("@gmail.com") || "Gmail is not allow",
-            },
-          })}
-          name="username"
-          label="username"
-          type="text"
-          required
-        />
-        {errors.username?.message}
-        {/* className={`${Boolean(errors.email?.message) ? "border-red-500" : ""}`} */}
+      <Layout title="로그인">
+        <form onSubmit={handleSubmit(onValid)} className="flex flex-col">
+          <Input
+            register={register("username", {
+              required: "Username is required",
+              validate: {
+                notGmail: (value) =>
+                  !value.includes("@gmail.com") || "Gmail is not allow",
+              },
+            })}
+            name="username"
+            label="username"
+            type="text"
+            required
+          />
+          {errors.username?.message}
+          {/* className={`${Boolean(errors.email?.message) ? "border-red-500" : ""}`} */}
 
-        <Input
-          register={register("password", {
-            required: "Password is required",
-          })}
-          name="password"
-          label="password"
-          type="password"
-          required
-        />
-        {errors.password?.message}
+          <Input
+            register={register("password", {
+              required: "Password is required",
+            })}
+            name="password"
+            label="password"
+            type="password"
+            required
+          />
+          {errors.password?.message}
 
-        <input type="submit" value="Log in" />
-      </form>
+          <input type="submit" value="Log in" />
+        </form>
+      </Layout>
     </div>
   );
 };

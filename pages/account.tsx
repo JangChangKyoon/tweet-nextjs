@@ -48,49 +48,50 @@ const Account: NextPage = () => {
 
   return (
     <div>
-      <Layout title="회원가입" />
-      <div className="">
-        <form onSubmit={handleSubmit(onValid)} className="flex flex-col">
-          <Input
-            register={register("username", {
-              required: "Username is required",
-            })}
-            name="username"
-            label="username"
-            type="text"
-            required
-          />
-          <span>{errors.username?.message}</span>
+      <Layout title="회원가입">
+        <div className="">
+          <form onSubmit={handleSubmit(onValid)} className="flex flex-col">
+            <Input
+              register={register("username", {
+                required: "Username is required",
+              })}
+              name="username"
+              label="username"
+              type="text"
+              required
+            />
+            <span>{errors.username?.message}</span>
 
-          <Input
-            register={register("email", {
-              required: "Email is required",
-              validate: {
-                notGmail: (value) =>
-                  !value.includes("@gmail.com") || "Gmail is not allow",
-              },
-            })}
-            name="email"
-            label="email adress"
-            type="email"
-            required
-          />
-          {errors.email?.message}
+            <Input
+              register={register("email", {
+                required: "Email is required",
+                validate: {
+                  notGmail: (value) =>
+                    !value.includes("@gmail.com") || "Gmail is not allow",
+                },
+              })}
+              name="email"
+              label="email adress"
+              type="email"
+              required
+            />
+            {errors.email?.message}
 
-          <Input
-            register={register("password", {
-              required: "Password is required",
-            })}
-            name="password"
-            label="password"
-            type="password"
-            required
-          />
-          {errors.password?.message}
+            <Input
+              register={register("password", {
+                required: "Password is required",
+              })}
+              name="password"
+              label="password"
+              type="password"
+              required
+            />
+            {errors.password?.message}
 
-          <input type="submit" value="Sign Up" />
-        </form>
-      </div>
+            <input type="submit" value="Sign Up" />
+          </form>
+        </div>
+      </Layout>
     </div>
   );
 };
